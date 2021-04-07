@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import {reqLogin} from '../../network/login'
+import {reqLogin} from 'network/login'
 export default {
   name: 'Login',
   data(){
@@ -32,10 +32,14 @@ export default {
   },
   methods:{
     submitForm(user){
+      const _this=this
       reqLogin(user).then(response=>{
-        console.log(response)
+        _this.$store.commit('login',response)
+        console.log('登录成功')
+        // console.log(_this.$store.state.user) //可以拿到state里的数据
+        _this.$router.replace('/home')
       })
-    }
+    },
   }
 }
 </script>

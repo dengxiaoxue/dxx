@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../vuex/vuex'
 Vue.use(Router);
 
 //解决重复点击报错问题
@@ -20,24 +21,59 @@ const Shop = () =>
 
 
 const routes = [{
-    path: '/home',
-    component: Home
-}, {
-    path: '/login',
-    component: Login
-}, {
-    path: '/order',
-    component: Order
-}, {
-    path: '/personal',
-    component: Personal
-}, {
-    path: '/shop',
-    component: Shop
-}]
+        path: '',
+        redirect: '/home', //缺省重定向，默认首页
+        component: Home
+    },
+    {
+        path: '/home',
+        component: Home
+    }, {
+        path: '/login',
+        component: Login
+    }, {
+        path: '/order',
+        component: Order,
+        meta: {
+            isLogin: true
+        }
+    }, {
+        path: '/personal',
+        component: Personal,
+        meta: {
+            isLogin: true
+        }
+    }, {
+        path: '/shop',
+        component: Shop
+    }
+]
 
 
-export default new Router({
+const router = new Router({
     routes,
     mode: 'history'
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.isLogin) { //为true则需要权限
+        // let user = JSON.parse(sessionStorage.getItem('user'))
+        // console.log(store.state.user.token) //刷新就无了
+
+        console.log(store.getters.getToken)
+        if (store.getters.getToken) {
+            next()
+        } else {
+            next({
+                path: '/login',
+                // query: {
+                //     redirect: to.fullPath //将该路由path传入login页面，登陆成功后跳转到该页面
+                // }
+            })
+        }
+    } else {
+        next()
+    }
+})
+
+export default router
