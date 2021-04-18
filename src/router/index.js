@@ -18,7 +18,21 @@ const Personal = () =>
     import ('../views/personal/Personal.vue')
 const Shop = () =>
     import ('../views/shop/Shop.vue')
+const Detail = () =>
+    import ('../views/detail/Detail.vue')
 
+const Card = () =>
+    import ('../views/personal/per/Card.vue')
+const Send = () =>
+    import ('../views/personal/per/Send.vue')
+const Message = () =>
+    import ('../views/personal/per/Message.vue')
+const UserInfo = () =>
+    import ('../views/personal/per/UserInfo.vue')
+const Account = () =>
+    import ('../views/personal/per/Account.vue')
+const Recycler = () =>
+    import ('../views/recycler/Recycler.vue')
 
 const routes = [{
         path: '',
@@ -28,24 +42,53 @@ const routes = [{
     {
         path: '/home',
         component: Home
-    }, {
+    },
+    {
         path: '/login',
-        component: Login
-    }, {
+        component: Login,
+    },
+    {
         path: '/order',
         component: Order,
         meta: {
             isLogin: true
         }
-    }, {
+    },
+    {
         path: '/personal',
         component: Personal,
         meta: {
             isLogin: true
-        }
+        },
+        children: [{
+            path: '',
+            redirect: 'index', //缺省重定向，默认news
+            component: Card
+        }, {
+            path: 'index',
+            component: Card,
+        }, {
+            path: 'send',
+            component: Send,
+        }, {
+            path: 'message',
+            component: Message,
+        }, {
+            path: 'userinfo',
+            component: UserInfo,
+        }, {
+            path: 'account',
+            component: Account,
+        }]
     }, {
         path: '/shop',
         component: Shop
+    }, {
+        path: '/detail/:id',
+        component: Detail
+    }, {
+        path: '/recycler',
+        component: Recycler
     }
 ]
 

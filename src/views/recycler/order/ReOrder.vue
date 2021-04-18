@@ -1,12 +1,7 @@
 <template>
-  <div id="order">
-    <div class="login"><img class="img" src="~assets/img/login.jpg" alt=""/></div>
-    <div class="order-container">
-      <slider :titles="titles" :tabsIndex="tabsIndex"  @selectIndex="selectIndex"/>
-      <div class="right">
-        <tabs :labels="labels" @clickTabs="clickTabs" :tabsIndex="tabsIndex">
+  <div id="order"
             <list slot="tabs">
-               <list-item v-for="(item,index) in orders[keys[tabsIndex]]" :key="index">
+               <list-item v-for="(item,index) in orders.all" :key="index">
                 <div slot="img"><img :src="item.img" alt=""></div>
                 <div slot="title">{{item.title}}</div>
                 <div slot="desc">{{item.desc}}</div>
@@ -17,28 +12,19 @@
                   <el-button type="danger" plain>删除</el-button>
                 </div>
                </list-item>
-           </list>
-        </tabs>
-      </div>
-    </div>
+           </list> 
   </div>
 </template>
 <script>
-import Slider from 'components/slider/Slider.vue'
-import Tabs from 'components/tabs/Tabs.vue'
 import List from 'components/list/List.vue'
 import ListItem from 'components/list/ListItem.vue'
 
 import {formaDate} from 'common/utils.js'
 export default {
-  components: {Tabs,Slider,List,ListItem },
+  components: {List,ListItem },
   name: 'Order',
   data(){
     return{
-      tabsIndex:'0',
-      keys:['all','finish','working'],
-      titles:['全部订单','已完成','进行中','设置'],
-      labels:['全部订单','已完成','进行中'],
       orders:{
         all:[{
           id:1,
@@ -262,14 +248,7 @@ export default {
     }
   },
   methods:{
-    clickTabs(index){
-      console.log('order的tabs'+index)  //tabs传递过来的index
-      this.tabsIndex=index
-    },
-    selectIndex(index){
-      console.log('来自slider的index'+index) //来自slider的index
-      this.tabsIndex=index
-    },
+    
   }
 }
 </script>
